@@ -1,8 +1,11 @@
-package com.example.tododesign;
+package com.todoDesign;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author Mory
+ */
 @SpringBootApplication
 public class TodoDesignApplication {
 
