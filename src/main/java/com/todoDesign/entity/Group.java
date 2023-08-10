@@ -3,10 +3,10 @@ package com.todoDesign.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
  * @since 2023-08-10
  */
 @TableName("todo_group")
+@Data
 public class Group implements Serializable {
 
     @Serial
@@ -27,38 +28,10 @@ public class Group implements Serializable {
 
     private String groupName;
 
-    private LocalDateTime createdAt;
-
-    public Integer getGroupId() {
-        return groupId;
+    public Group(){
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
+    public Group(String groupName){
         this.groupName = groupName;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Group{" +
-        "groupId = " + groupId +
-        ", groupName = " + groupName +
-        ", createdAt = " + createdAt +
-        "}";
     }
 }

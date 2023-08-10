@@ -2,6 +2,7 @@ package com.todoDesign.service;
 
 import com.todoDesign.entity.Group;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.http.ResponseEntity;
 
 /**
  * <p>
@@ -12,5 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-08-10
  */
 public interface IGroupService extends IService<Group> {
+
+    /*
+    新建列表
+    */
+    ResponseEntity<String> createGroup(Group group,int userId);
 
 }

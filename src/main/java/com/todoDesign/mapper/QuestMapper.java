@@ -2,6 +2,7 @@ package com.todoDesign.mapper;
 
 import com.todoDesign.entity.Quest;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Mory
  * @since 2023-08-10
  */
+@Repository
 public interface QuestMapper extends BaseMapper<Quest> {
 
 }
