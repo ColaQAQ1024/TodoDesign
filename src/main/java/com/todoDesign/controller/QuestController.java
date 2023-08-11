@@ -64,4 +64,16 @@ public class QuestController {
         }
     }
 
+    @GetMapping("/planing")
+    public  ResponseEntity<Object> planing(HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        List<FinishQuest>  plan = questMapper.planning(userId);
+        if (!plan.isEmpty()){
+            return ResponseEntity.ok(plan);
+        }else {
+            return ResponseEntity.ok("没有计划中的任务喔！");
+        }
+    }
+
+
 }
