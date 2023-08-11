@@ -46,8 +46,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             user.setNickname("新用户_" + String.format("%04d",new Random().nextInt(10000)));
         }
         //检验用户名是否被占用
-        if (userMapper.selectOne(new QueryWrapper<User>().eq("username",user.getUsername())) == null){
-            userMapper.insert(user);
+        if (this.query().eq("username",user.getUsername()) == null){
+            this.save(user);
             iGroupService.createGroup(new Group("任务"),user.getUserId());
             return ResponseEntity.ok("注册成功");
         }else {
@@ -57,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public ResponseEntity<String> login(String userName, String password, HttpSession session){
-        if (userMapper.selectOne(new QueryWrapper<User>().eq("username",userName).eq("password",password)) != null){
+        if (this.query().eq("username",userName).eq("password",password) != null){
             session.setAttribute("userId",this.getUserIdByUserName(userName));
             return ResponseEntity.ok("登录成功");
         }else {

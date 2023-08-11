@@ -3,6 +3,7 @@ package com.todoDesign.mapper;
 import com.todoDesign.entity.FinishQuest;
 import com.todoDesign.entity.Quest;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,9 @@ public interface QuestMapper extends BaseMapper<Quest> {
     List<FinishQuest> allFinish(int groupId);
 
     List<FinishQuest> planning(int userId);
+
+    int finishThing(
+            @Param("thing") String thing,
+            int groupId
+    );
 }

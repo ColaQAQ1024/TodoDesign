@@ -75,5 +75,18 @@ public class QuestController {
         }
     }
 
-
+    @PutMapping("/finishThing/{thing}/{groupName}")
+    public ResponseEntity<String> finishThing(
+            @PathVariable String groupName,
+            @PathVariable String thing,
+            HttpSession session
+    ){
+        Integer userId = (Integer) session.getAttribute("userId");
+        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
+        if(questMapper.finishThing(thing,groupId) > 0){
+            return ResponseEntity.ok(thing + "已完成");
+        }else {
+            return ResponseEntity.ok("事项不存在");
+        }
+    }
 }
