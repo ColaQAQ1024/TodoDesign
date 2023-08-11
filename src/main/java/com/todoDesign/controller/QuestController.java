@@ -1,15 +1,16 @@
 package com.todoDesign.controller;
 
+import com.todoDesign.entity.FinishQuest;
 import com.todoDesign.entity.Quest;
+import com.todoDesign.mapper.QuestMapper;
 import com.todoDesign.service.IGroupService;
 import com.todoDesign.service.IQuestService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 /**
  * <p>
@@ -25,10 +26,12 @@ public class QuestController {
 
     private final IQuestService iQuestService;
     private final IGroupService iGroupService;
+    private final QuestMapper questMapper;
 
-    public QuestController(IQuestService iQuestService, IGroupService iGroupService) {
+    public QuestController(IQuestService iQuestService, IGroupService iGroupService, QuestMapper questMapper) {
         this.iQuestService = iQuestService;
         this.iGroupService = iGroupService;
+        this.questMapper = questMapper;
     }
 
     @PostMapping("/todos/{groupName}")
@@ -39,6 +42,25 @@ public class QuestController {
             return iQuestService.add(quest,groupId);
         }else {
             return ResponseEntity.ok("列表不存在");
+        }
+    }
+
+    @GetMapping("/unFinish/{groupName}")
+    public ResponseEntity<List<FinishQuest>> unFinish(@PathVariable String groupName, HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
+            return ResponseEntity.ok(questMapper.unFinishQuest(groupId));
+    }
+
+    @GetMapping("/allFinish/{groupName}")
+    public ResponseEntity<Object> allFinish(@PathVariable String groupName, HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
+        List<FinishQuest> finishQuests = questMapper.allFinish(groupId);
+        if (finishQuests.size() > 0){
+            return ResponseEntity.ok(finishQuests);
+        }else {
+            return ResponseEntity.ok("暂无已完成事项");
         }
     }
 
