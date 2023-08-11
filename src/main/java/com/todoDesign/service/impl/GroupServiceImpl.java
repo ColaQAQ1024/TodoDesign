@@ -31,9 +31,19 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
         this.groupUserMapper = groupUserMapper;
     }
 
-    //根据列表名获取对应的GroupId
-    public int getGroupIdByGroupName(String groupName){
-        return groupMapper.selectOne(new QueryWrapper<Group>().eq("group_id",groupName)).getGroupId();
+    //根据列表名和用户Id获取对应的GroupId
+    @Override
+    public int getGroupIdByGroupNameAndUserId(String groupName,int userId){
+        Group group = groupMapper.selectOne(new QueryWrapper<Group>()
+                .select("todo_group.group_id")
+                .inSql("todo_group.group_id", "SELECT group_id FROM todo_user_group WHERE user_id = " + userId)
+                .eq("todo_group.group_name",groupName));
+        //如果返回的group为null，则用户没有该昵称的对应表
+        if (group != null){
+            return group.getGroupId();
+        }else{
+            return -1;
+        }
     }
 
     //连接对应GroupId和UserId

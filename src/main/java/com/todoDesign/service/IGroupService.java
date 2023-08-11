@@ -14,9 +14,12 @@ import org.springframework.http.ResponseEntity;
  */
 public interface IGroupService extends IService<Group> {
 
+    int getGroupIdByGroupNameAndUserId(String groupName,int userId);
+
     /*
     新建列表
     */
     ResponseEntity<String> createGroup(Group group,int userId);
+
 
 }
