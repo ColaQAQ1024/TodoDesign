@@ -5,21 +5,26 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.http.ResponseEntity;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
+ * 群组服务接口
  * @author Mory
- * @since 2023-08-10
  */
 public interface IGroupService extends IService<Group> {
 
-    int getGroupIdByGroupNameAndUserId(String groupName,int userId);
+    /**
+     * 根据群组名和用户ID获取群组ID
+     *
+     * @param groupName 群组名称
+     * @param userId 用户ID
+     * @return 群组ID
+     */
+    int getGroupIdByGroupNameAndUserId(String groupName, int userId);
 
-    /*
-    新建列表
-    */
-    ResponseEntity<String> createGroup(Group group,int userId);
-
-
+    /**
+     * 新建群组
+     *
+     * @param group 群组信息
+     * @param userId 用户ID
+     * @return 响应实体
+     */
+    ResponseEntity<String> createGroup(Group group, int userId);
 }

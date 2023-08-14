@@ -8,7 +8,7 @@ import lombok.Data;
  * &introduce 烽火兴旺，凡我喵喵教，喵喵喵！
  */
 @Data
-public class UserLogin {
+public class UserDTO {
     private String username;
     private String password;
 }

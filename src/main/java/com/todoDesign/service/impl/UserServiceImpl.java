@@ -1,9 +1,7 @@
 package com.todoDesign.service.impl;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.todoDesign.entity.Group;
 import com.todoDesign.entity.User;
-import com.todoDesign.dto.UserLogin;
+import com.todoDesign.dto.UserDTO;
 import com.todoDesign.mapper.UserMapper;
 import com.todoDesign.service.IGroupService;
 import com.todoDesign.service.IUserService;
@@ -37,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     public int getUserIdByUserName(String userName){
-        return userMapper.selectOne(new QueryWrapper<User>().eq("username",userName)).getUserId();
+        return userMapper.selectOne(this.query().eq("username",userName)).getUserId();
     }
 
     @Override
@@ -57,14 +55,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public ResponseEntity<String> login(UserLogin userLogin, HttpSession session){
-        if (this.query().eq("username",userLogin.getUsername()).eq("password",userLogin.getPassword()) != null){
-            session.setAttribute("userId",this.getUserIdByUserName(userLogin.getUsername()));
+    public ResponseEntity<String> login(UserDTO userDTO, HttpSession session){
+        if (this.query().eq("username", userDTO.getUsername()).eq("password", userDTO.getPassword()) != null){
+            session.setAttribute("userId",this.getUserIdByUserName(userDTO.getUsername()));
             return ResponseEntity.ok("登录成功");
         }else {
             return ResponseEntity.ok("用户名或密码错误(⊙_⊙)，请重新输入");
         }
     }
-
 
 }

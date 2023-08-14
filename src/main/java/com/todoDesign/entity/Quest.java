@@ -26,4 +26,6 @@ public class Quest implements Serializable {
     private String nameThing;
     @TableId(value = "quest_id", type = IdType.AUTO)
     private Integer questId;
+    private boolean finish;
+    private boolean star;
 }

@@ -21,8 +21,6 @@ public interface QuestMapper extends BaseMapper<Quest> {
 
     List<FinishQuest> unFinishQuest(int groupId);
 
-    List<FinishQuest> allFinish(int groupId);
-
     List<FinishQuest> planning(int userId);
 
     int finishThing(

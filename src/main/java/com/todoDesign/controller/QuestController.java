@@ -13,50 +13,61 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 /**
- * <p>
- *  前端控制器
- * </p>
- *
  * @author Mory
- * @since 2023-08-10
  */
 @Controller
 @RequestMapping("/todoDesign/quest")
 public class QuestController {
 
-    private final IQuestService iQuestService;
-    private final IGroupService iGroupService;
+    private final IQuestService questService;
+    private final IGroupService groupService;
     private final QuestMapper questMapper;
 
-    public QuestController(IQuestService iQuestService, IGroupService iGroupService, QuestMapper questMapper) {
-        this.iQuestService = iQuestService;
-        this.iGroupService = iGroupService;
+    public QuestController(IQuestService questService, IGroupService groupService, QuestMapper questMapper) {
+        this.questService = questService;
+        this.groupService = groupService;
         this.questMapper = questMapper;
     }
 
     @PostMapping("/todos")
-    public ResponseEntity<String> add(@RequestBody QuestDTO questDTO, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
-        return iQuestService.add(questDTO,userId);
+    public ResponseEntity<String> addQuest(@RequestBody QuestDTO questDTO, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        return questService.add(questDTO, userId);
     }
 
     @GetMapping("/unFinish/{groupName}")
-    public ResponseEntity<List<FinishQuest>> unFinish(@PathVariable String groupName, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
+    public ResponseEntity<List<FinishQuest>> getUnfinishedQuests(@PathVariable String groupName, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        int groupId = groupService.getGroupIdByGroupNameAndUserId(groupName, userId);
         return ResponseEntity.ok(questMapper.unFinishQuest(groupId));
     }
+
     @GetMapping("/allFinish/{groupName}")
-    public ResponseEntity<Object> allFinish(@PathVariable String groupName, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
-        return iQuestService.allFinish(groupName,userId);
+    public ResponseEntity<Object> getAllFinishedQuests(@PathVariable String groupName, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        return questService.allFinish(groupName, userId);
     }
 
     @GetMapping("/planing")
-    public  ResponseEntity<Object> planing(HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
-        return iQuestService.planing(userId);
+    public ResponseEntity<Object> getPlannedQuests(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        return questService.planning(userId);
     }
 
-    @PutMapping("/finishThing")
-    public ResponseEntity<String> finishThing(@RequestBody QuestDTO questDTO, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(), userId);
-        return iQuestService.finish(questDTO,groupId);
+    @PutMapping("/finishQuest")
+    public ResponseEntity<String> finishQuest(@RequestBody QuestDTO questDTO, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        return questService.finish(questDTO, userId);
+    }
+
+    @DeleteMapping("/deleteQuest")
+    public ResponseEntity<String> deleteThing(@RequestBody QuestDTO questDTO, HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        return questService.deleteThing(questDTO,userId);
+    }
+
+    @PostMapping ResponseEntity<String> setStar(@RequestBody QuestDTO questDTO,HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        return questService.setStar(questDTO,userId);
     }
 }
