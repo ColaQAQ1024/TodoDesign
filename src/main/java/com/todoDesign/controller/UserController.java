@@ -1,6 +1,7 @@
 package com.todoDesign.controller;
 
 import com.todoDesign.entity.User;
+import com.todoDesign.dto.UserLogin;
 import com.todoDesign.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,9 @@ public class UserController {
         return userService.signIn(user);
     }
 
-    @GetMapping("login/{userName}/{password}")
-    public ResponseEntity<String> login(@PathVariable String userName, @PathVariable String password, HttpSession session){
-        return userService.login(userName,password,session);
+    @GetMapping("login")
+    public ResponseEntity<String> login(@RequestBody UserLogin userLogin, HttpSession session){
+        return userService.login(userLogin,session);
     }
 
 }

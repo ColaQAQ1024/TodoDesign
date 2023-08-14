@@ -2,6 +2,7 @@ package com.todoDesign.service;
 
 import com.todoDesign.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.todoDesign.dto.UserLogin;
 import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,6 @@ public interface IUserService extends IService<User> {
     /*
     用户登录
     */
-    ResponseEntity<String> login(String userName, String password, HttpSession session);
+    ResponseEntity<String> login(UserLogin userLogin, HttpSession session);
 
 }

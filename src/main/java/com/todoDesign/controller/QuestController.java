@@ -1,7 +1,7 @@
 package com.todoDesign.controller;
 
-import com.todoDesign.entity.FinishQuest;
-import com.todoDesign.entity.Quest;
+import com.todoDesign.dto.QuestDTO;
+import com.todoDesign.dto.FinishQuest;
 import com.todoDesign.mapper.QuestMapper;
 import com.todoDesign.service.IGroupService;
 import com.todoDesign.service.IQuestService;
@@ -34,59 +34,29 @@ public class QuestController {
         this.questMapper = questMapper;
     }
 
-    @PostMapping("/todos/{groupName}")
-    public ResponseEntity<String> add(@PathVariable String groupName, @RequestBody Quest quest, HttpSession session){
-        Integer userId = (Integer) session.getAttribute("userId");
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
-        if(groupId > 0){
-            return iQuestService.add(quest,groupId);
-        }else {
-            return ResponseEntity.ok("列表不存在");
-        }
+    @PostMapping("/todos")
+    public ResponseEntity<String> add(@RequestBody QuestDTO questDTO, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
+        return iQuestService.add(questDTO,userId);
     }
 
     @GetMapping("/unFinish/{groupName}")
-    public ResponseEntity<List<FinishQuest>> unFinish(@PathVariable String groupName, HttpSession session){
-        Integer userId = (Integer) session.getAttribute("userId");
+    public ResponseEntity<List<FinishQuest>> unFinish(@PathVariable String groupName, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
         int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
-            return ResponseEntity.ok(questMapper.unFinishQuest(groupId));
+        return ResponseEntity.ok(questMapper.unFinishQuest(groupId));
     }
-
     @GetMapping("/allFinish/{groupName}")
-    public ResponseEntity<Object> allFinish(@PathVariable String groupName, HttpSession session){
-        Integer userId = (Integer) session.getAttribute("userId");
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
-        List<FinishQuest> finishQuests = questMapper.allFinish(groupId);
-        if (finishQuests.size() > 0){
-            return ResponseEntity.ok(finishQuests);
-        }else {
-            return ResponseEntity.ok("暂无已完成事项");
-        }
+    public ResponseEntity<Object> allFinish(@PathVariable String groupName, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
+        return iQuestService.allFinish(groupName,userId);
     }
 
     @GetMapping("/planing")
-    public  ResponseEntity<Object> planing(HttpSession session){
-        Integer userId = (Integer) session.getAttribute("userId");
-        List<FinishQuest>  plan = questMapper.planning(userId);
-        if (!plan.isEmpty()){
-            return ResponseEntity.ok(plan);
-        }else {
-            return ResponseEntity.ok("没有计划中的任务喔！");
-        }
+    public  ResponseEntity<Object> planing(HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
+        return iQuestService.planing(userId);
     }
 
-    @PutMapping("/finishThing/{thing}/{groupName}")
-    public ResponseEntity<String> finishThing(
-            @PathVariable String groupName,
-            @PathVariable String thing,
-            HttpSession session
-    ){
-        Integer userId = (Integer) session.getAttribute("userId");
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
-        if(questMapper.finishThing(thing,groupId) > 0){
-            return ResponseEntity.ok(thing + "已完成");
-        }else {
-            return ResponseEntity.ok("事项不存在");
-        }
+    @PutMapping("/finishThing")
+    public ResponseEntity<String> finishThing(@RequestBody QuestDTO questDTO, HttpSession session){Integer userId = (Integer) session.getAttribute("userId");
+        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(), userId);
+        return iQuestService.finish(questDTO,groupId);
     }
 }

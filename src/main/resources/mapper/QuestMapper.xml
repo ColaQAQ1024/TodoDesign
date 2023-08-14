@@ -33,7 +33,7 @@
         AND quest_id IN (SELECT tgq.quest_id FROM todo_group_quest tgq WHERE tgq.group_id = #{groupId})
     </update>
 
-    <resultMap id="FinishResultMap" type="com.todoDesign.entity.FinishQuest">
+    <resultMap id="FinishResultMap" type="com.todoDesign.dto.FinishQuest">
         <result property="nameThing" column="name_thing"/>
         <result property="startTime" column="start_time"/>
         <result property="deadTime" column="dead_time"/>

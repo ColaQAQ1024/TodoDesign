@@ -34,6 +34,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     //根据列表名和用户Id获取对应的GroupId
     @Override
     public int getGroupIdByGroupNameAndUserId(String groupName,int userId){
+        //*
         Group group = groupMapper.selectOne(new QueryWrapper<Group>()
                 .select("todo_group.group_id")
                 .inSql("todo_group.group_id", "SELECT group_id FROM todo_user_group WHERE user_id = " + userId)

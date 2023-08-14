@@ -1,4 +1,4 @@
-package com.todoDesign.entity;
+package com.todoDesign.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
