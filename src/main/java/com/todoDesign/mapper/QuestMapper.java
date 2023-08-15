@@ -18,6 +18,12 @@ import java.util.List;
 @Repository
 public interface QuestMapper extends BaseMapper<Quest> {
 
+    /**
+     * 根据用户 ID 查询计划中的任务列表
+     *
+     * @param userId 用户 ID
+     * @return 计划中的任务列表
+     */
     List<FinishQuest> planning(int userId);
 
 }
