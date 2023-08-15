@@ -23,8 +23,7 @@ public interface IGroupService extends IService<Group> {
      * 新建群组
      *
      * @param group 群组信息
-     * @param userId 用户ID
      * @return 响应实体
      */
-    ResponseEntity<String> createGroup(Group group, int userId);
+    ResponseEntity<String> createGroup(Group group);
 }

@@ -7,8 +7,8 @@ import com.todoDesign.service.IGroupService;
 import com.todoDesign.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +23,18 @@ import java.util.Random;
  * @since 2023-08-10
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
-    private final UserMapper userMapper;
     private final IGroupService iGroupService;
 
-    @Autowired
-    public UserServiceImpl(UserMapper userMapper, IGroupService iGroupService) {
-        this.userMapper = userMapper;
-        this.iGroupService = iGroupService;
-    }
-
     public int getUserIdByUserName(String userName){
-        return userMapper.selectOne(this.query().eq("username",userName)).getUserId();
+        User user = this.query().eq("username", userName).one();
+        if (user != null) {
+            return user.getUserId();
+        } else {
+            return -1; // 或者根据实际情况返回一个默认值
+        }
     }
 
     @Override
@@ -45,9 +44,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             user.setNickname("新用户_" + String.format("%04d",new Random().nextInt(10000)));
         }
         //检验用户名是否被占用
-        if (this.query().eq("username",user.getUsername()) == null){
+        if (this.query()
+                .eq("userName",user.getUsername())
+                == null
+                ){
             this.save(user);
-            iGroupService.createGroup(new Group("任务"),user.getUserId());
+            Group group = new Group("任务", user.getUserId());
+            iGroupService.createGroup(group);// 使用保存后的用户信息调用 createGroup 方法
             return ResponseEntity.ok("注册成功");
         }else {
             return ResponseEntity.ok("用户名重复，换一个试试看吧！");
@@ -56,7 +59,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public ResponseEntity<String> login(UserDTO userDTO, HttpSession session){
-        if (this.query().eq("username", userDTO.getUsername()).eq("password", userDTO.getPassword()) != null){
+        if (this.query()
+                .eq("username", userDTO.getUsername())
+                .eq("password", userDTO.getPassword())
+                != null
+        ) {
             session.setAttribute("userId",this.getUserIdByUserName(userDTO.getUsername()));
             return ResponseEntity.ok("登录成功");
         }else {

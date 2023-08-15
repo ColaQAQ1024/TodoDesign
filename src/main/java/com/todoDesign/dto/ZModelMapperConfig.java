@@ -1,6 +1,9 @@
 package com.todoDesign.dto;
 
+import com.todoDesign.entity.Quest;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +18,8 @@ import java.util.List;
 @Configuration
 public class ZModelMapperConfig {
 
+
+
     //类型转换
     @Bean
     public ModelMapper modelMapper() {
@@ -28,6 +33,17 @@ public class ZModelMapperConfig {
             resultList.add(target);
         }
         return resultList;
+    }
+
+    //Quest转换为QuestDTO
+    public QuestDTO  exchangeQuestToQuestDTO (Quest quest){
+        TypeMap<Quest, QuestDTO> typeMap = modelMapper().createTypeMap(Quest.class, QuestDTO.class);
+        //装换器初始化
+        Converter<String, String> exchangeSetting =
+                ctx -> ctx.getSource() == null ? null : ctx.getSource();
+        typeMap.addMappings(mapping -> mapping.using(exchangeSetting).map(Quest::getNameThing,QuestDTO::setGroupName))
+                .addMappings(mapping -> mapping.skip(Quest::getNameThing,QuestDTO::setNameThing));
+        return typeMap.map(quest);
     }
 
 }

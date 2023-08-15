@@ -2,28 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.todoDesign.mapper.QuestMapper">
 
-    <select id="unFinishQuest" resultMap="FinishResultMap">
-        SELECT name_thing,start_time
-        FROM demos.todo_quest
-            join demos.todo_group_quest on demos.todo_quest.quest_id = todo_group_quest.quest_id
-        WHERE todo_group_quest.group_id = #{groupId}
-          AND finish = false;
-    </select>
-
     <select id="planning" resultMap="FinishResultMap">
         SELECT name_thing,start_time,dead_time
         FROM demos.todo_quest
-            JOIN demos.todo_group_quest gq on todo_quest.quest_id = gq.quest_id
-        WHERE gq.group_id IN (SELECT tug.group_id FROM todo_user_group tug WHERE tug.user_id = #{userId})
+        WHERE group_id IN (SELECT group_id FROM todo_group tug WHERE tug.user_id = #{userId})
           AND dead_time IS NOT NULL
     </select>
-
-    <update id="finishThing">
-        UPDATE DEMOS.todo_quest
-        SET finish = true
-        WHERE name_thing = #{thing}
-        AND quest_id IN (SELECT tgq.quest_id FROM todo_group_quest tgq WHERE tgq.group_id = #{groupId})
-    </update>
 
     <resultMap id="FinishResultMap" type="com.todoDesign.dto.FinishQuest">
         <result property="nameThing" column="name_thing"/>

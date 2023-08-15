@@ -28,10 +28,13 @@ public class Group implements Serializable {
 
     private String groupName;
 
+    private Integer userId;
+
     public Group(){
     }
 
-    public Group(String groupName){
+    public Group(String groupName, int userId){
         this.groupName = groupName;
+        this.userId = userId;
     }
 }

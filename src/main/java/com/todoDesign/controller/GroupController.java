@@ -30,8 +30,8 @@ public class GroupController {
     @PostMapping("/createGroup")
     public ResponseEntity<String> createGroup(@RequestBody Group group, HttpSession session){
         Integer userId = (Integer) session.getAttribute("userId");
-        return iGroupService.createGroup(group,userId);
+        group.setUserId(userId);
+        return iGroupService.createGroup(group);
     }
-
 
 }

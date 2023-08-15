@@ -36,6 +36,14 @@ public interface IQuestService extends IService<Quest> {
     ResponseEntity<Object> allFinish(String groupName, int userId);
 
     /**
+     * 未完成所有同名任务
+     * @param groupName 群组名称
+     * @param userId 用户ID
+     * @return 响应实体
+     */
+    ResponseEntity<Object> unFinish(String groupName,int userId);
+
+    /**
      * 计划任务
      * @param userId 用户ID
      * @return 响应实体
@@ -65,4 +73,5 @@ public interface IQuestService extends IService<Quest> {
      * @return 响应实体
      */
     ResponseEntity<String> setStar(QuestDTO questDTO, int userId);
+
 }
