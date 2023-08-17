@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements IGroupService {
 
+
     //通过列表名和userId获得对应的groupId
     @Override
     public int getGroupIdByGroupNameAndUserId(String groupName, int userId) {
@@ -28,7 +29,16 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     //创建新列表
     @Override
     public ResponseEntity<String> createGroup(Group group) {
-        this.save(group);
-        return ResponseEntity.ok(group.getGroupName() + "创建成功");
+        if (this.query()
+                .eq("group_name",group.getGroupName())
+                .eq("user_id",group.getUserId())
+                .one()
+                == null
+        ) {
+            this.save(group);
+            return ResponseEntity.ok("列表：" + group.getGroupName() + " 创建成功");
+        }else {
+            return ResponseEntity.ok("列表：" + group.getGroupName() + " 已存在");
+        }
     }
 }

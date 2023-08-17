@@ -27,5 +27,4 @@ class TodoDesignApplicationTests {
         QuestDTO questDTO = typeMap.map(quest);
         System.out.println(questDTO.getNameThing() + questDTO.getGroupName());
     }
-
 }

@@ -12,7 +12,6 @@ public interface IGroupService extends IService<Group> {
 
     /**
      * 根据群组名和用户ID获取群组ID
-     *
      * @param groupName 群组名称
      * @param userId 用户ID
      * @return 群组ID
@@ -21,7 +20,6 @@ public interface IGroupService extends IService<Group> {
 
     /**
      * 新建群组
-     *
      * @param group 群组信息
      * @return 响应实体
      */
