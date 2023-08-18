@@ -1,6 +1,7 @@
 package com.todoDesign.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.service.IQuestService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/todoDesign/quest")
 @RequiredArgsConstructor
 @SaCheckLogin
+@SaCheckRole("user")
 public class QuestController {
 
     private final IQuestService iquestService;

@@ -4,9 +4,11 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.todoDesign.dto.UserDTO;
 import com.todoDesign.entity.Group;
+import com.todoDesign.entity.Relation;
 import com.todoDesign.entity.User;
 import com.todoDesign.mapper.UserMapper;
 import com.todoDesign.service.IGroupService;
+import com.todoDesign.service.IRelationService;
 import com.todoDesign.service.ITeammateService;
 import com.todoDesign.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     private final ITeammateService iTeammateService;
     private final IGroupService iGroupService;
+    private final IRelationService iRelationService;
 
     @Override
     public ResponseEntity<String> signIn(@NotNull User user){
@@ -49,7 +52,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                     .getUserId();
             Group group = new Group("任务");
             iGroupService.save(group);
-            iTeammateService.saveByGroupIdAndUserId(group.getGroupId(),userId);// 使用保存后的用户信息调用 createGroup 方法
+            // 使用保存后的用户信息调用 createGroup 方法
+            iTeammateService.saveByGroupIdAndUserId(group.getGroupId(),userId);
+            Relation relation = new Relation(2,userId);
+            // 建立User权限关系
+            iRelationService.save(relation);
             return ResponseEntity.ok("注册成功");
         }else {
             return ResponseEntity.ok("用户名重复，换一个试试看吧！");

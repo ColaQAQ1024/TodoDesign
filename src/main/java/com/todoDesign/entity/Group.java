@@ -28,9 +28,6 @@ public class Group implements Serializable {
 
     private String groupName;
 
-    public Group(){
-    }
-
     public Group(String groupName){
         this.groupName = groupName;
     }
