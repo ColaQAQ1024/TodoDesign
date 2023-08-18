@@ -1,6 +1,5 @@
 package com.todoDesign.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,9 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 public class FinishQuest implements Serializable {
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime deadTime;
     private String nameThing;
 }

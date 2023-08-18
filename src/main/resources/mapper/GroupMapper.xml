@@ -3,4 +3,11 @@
 <mapper namespace="com.todoDesign.mapper.GroupMapper">
 
 
+    <select id="getGroupIdByGroupNameAndUserId" resultType="java.lang.Integer">
+        select todo_group.group_id
+        from demos.todo_group
+            join todo_teammate t on todo_group.group_id = t.group_id
+        where user_id = #{userId} and group_name = #{groupName}
+    </select>
+
 </mapper>

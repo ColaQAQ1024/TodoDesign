@@ -1,12 +1,14 @@
 package com.todoDesign.service.impl;
+
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.todoDesign.dto.UserDTO;
 import com.todoDesign.entity.Group;
 import com.todoDesign.entity.User;
-import com.todoDesign.dto.UserDTO;
 import com.todoDesign.mapper.UserMapper;
 import com.todoDesign.service.IGroupService;
+import com.todoDesign.service.ITeammateService;
 import com.todoDesign.service.IUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+    private final ITeammateService iTeammateService;
     private final IGroupService iGroupService;
 
     @Override
@@ -34,14 +37,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             //为新用户设置随机昵称 - 格式为：新用户_（4）随机数
             user.setNickname("新用户_" + String.format("%04d",new Random().nextInt(10000)));
         }
-        if (this.query()
-                .eq("username", user.getUsername())
+        if (this.lambdaQuery()
+                .eq(User::getUsername,user.getUsername())
                 .one()
                 == null
         ){
             this.save(user);
-            Group group = new Group("任务", user.getUserId());
-            iGroupService.createGroup(group);// 使用保存后的用户信息调用 createGroup 方法
+            Integer userId = this.lambdaQuery()
+                    .eq(User::getUsername,user.getUsername())
+                    .one()
+                    .getUserId();
+            Group group = new Group("任务");
+            iGroupService.save(group);
+            iTeammateService.saveByGroupIdAndUserId(group.getGroupId(),userId);// 使用保存后的用户信息调用 createGroup 方法
             return ResponseEntity.ok("注册成功");
         }else {
             return ResponseEntity.ok("用户名重复，换一个试试看吧！");
@@ -50,9 +58,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public ResponseEntity<String> login(UserDTO userDTO){
-        User user = this.query()
-                .eq("username", userDTO.getUsername())
-                .eq("password", userDTO.getPassword()).one();
+        User user = this.lambdaQuery()
+                .eq(User::getUsername, userDTO.getUsername())
+                .eq(User::getPassword, userDTO.getPassword())
+                .one();
         if (user != null) {
             StpUtil.login(user.getUserId());//成功登录
             StpUtil.getSession().set("userId",user.getUserId());//加载对应userId的session

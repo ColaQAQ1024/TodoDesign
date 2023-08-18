@@ -19,8 +19,14 @@ sa-token:
   # 是否输出操作日志
   is-log: true
 
-# 数据源配置
+
 spring:
+
+  #jackson日期时间格式设置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  # 数据源配置
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/DEMOS
     username: mory

@@ -4,8 +4,9 @@
 
     <select id="planning" resultMap="FinishResultMap">
         SELECT name_thing,start_time,dead_time
-        FROM demos.todo_quest
-        WHERE group_id IN (SELECT group_id FROM todo_group tug WHERE tug.user_id = #{userId})
+        FROM demos.todo_quest tq
+            JOIN todo_teammate tt ON tq.group_id = tt.group_id
+        WHERE tt.user_id = #{userId}
           AND dead_time IS NOT NULL
     </select>
 

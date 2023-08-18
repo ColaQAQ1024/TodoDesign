@@ -19,23 +19,27 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
+
         // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询权限
-        List<String> list = new ArrayList<>();
-        list.add("101");
-        list.add("user.add");
-        list.add("user.update");
-        list.add("user.get");
-        // list.add("user.delete");
-        list.add("art.*");
-        return list;
+        List<String> permission = new ArrayList<>();
+        permission.add("101");
+        permission.add("user.add");
+        permission.add("user.update");
+        permission.add("user.get");
+        // permission.add("user.delete");
+        permission.add("art.*");
+        return permission;
+
     }
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
+
         // 本 list 仅做模拟，实际项目中要根据具体业务逻辑来查询角色
-        List<String> list = new ArrayList<>();
-        list.add("admin");
-        list.add("super-admin");
-        return list;
+        List<String> role = new ArrayList<>();
+        role.add("admin");
+        role.add("super-admin");
+        return role;
+
     }
 }

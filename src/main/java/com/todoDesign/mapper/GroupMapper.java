@@ -14,4 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GroupMapper extends BaseMapper<Group> {
+
+    Integer getGroupIdByGroupNameAndUserId(String groupName, int userId);
+
 }

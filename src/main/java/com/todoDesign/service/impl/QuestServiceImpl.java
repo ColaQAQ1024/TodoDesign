@@ -2,7 +2,7 @@ package com.todoDesign.service.impl;
 
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.dto.FinishQuest;
-import com.todoDesign.dto.ZModelMapperConfig;
+import com.todoDesign.congigure.ZModelMapperConfig;
 import com.todoDesign.entity.Quest;
 import com.todoDesign.mapper.QuestMapper;
 import com.todoDesign.service.IGroupService;
@@ -37,9 +37,9 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
     //通过事项和groupId获得对应的questId
     @Override
     public int getQuestIdByNameThingAndGroupId(String nameThing,int groupId){
-        Quest quest = this.query()
-                .eq("name_thing",nameThing)
-                .eq("group_id",groupId)
+        Quest quest = this.lambdaQuery()
+                .eq(Quest::getNameThing,nameThing)
+                .eq(Quest::getGroupId,groupId)
                 .one();
         return (quest != null) ? quest.getQuestId() : -1;
     }
@@ -56,11 +56,11 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
     @Override
     public ResponseEntity<Object> allFinish(String groupName,int userId){
         int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
-        List<Quest> list = this.query()
-                .eq("finish",true)
-                .eq("group_id",groupId)
+        List<Quest> list = this.lambdaQuery()
+                .eq(Quest::isFinish,true)
+                .eq(Quest::getGroupId,groupId)
                 .list();//设置查询条件
-        List<FinishQuest> finishQuests = zModelMapperConfig.convertList(list,FinishQuest.class);//设置查询条件
+        List<FinishQuest> finishQuests = zModelMapperConfig.convertList(list,FinishQuest.class);//类型转换
         if (finishQuests.size() > 0){
             return ResponseEntity.ok(finishQuests);
         }else {
@@ -71,11 +71,11 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
     @Override
     public ResponseEntity<Object> unFinish(String groupName,int userId){
         int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
-        List<Quest> list = this.query()
-                .eq("finish",false)
-                .eq("group_id",groupId)
+        List<Quest> list = this.lambdaQuery()
+                .eq(Quest::isFinish,false)
+                .eq(Quest::getGroupId,groupId)
                 .list();//设置查询条件
-        List<FinishQuest> finishQuests = zModelMapperConfig.convertList(list,FinishQuest.class);
+        List<FinishQuest> finishQuests = zModelMapperConfig.convertList(list,FinishQuest.class);//类型转换
         if (finishQuests.size() > 0){
             return ResponseEntity.ok(finishQuests);
         }else {

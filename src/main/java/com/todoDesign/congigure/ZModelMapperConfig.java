@@ -1,5 +1,6 @@
-package com.todoDesign.dto;
+package com.todoDesign.congigure;
 
+import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.entity.Quest;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -36,7 +37,7 @@ public class ZModelMapperConfig {
     }
 
     //Quest转换为QuestDTO
-    public QuestDTO  exchangeQuestToQuestDTO (Quest quest){
+    public QuestDTO exchangeQuestToQuestDTO (Quest quest){
         TypeMap<Quest, QuestDTO> typeMap = modelMapper().createTypeMap(Quest.class, QuestDTO.class);
         //装换器初始化
         Converter<String, String> exchangeSetting =

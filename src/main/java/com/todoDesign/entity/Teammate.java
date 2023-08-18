@@ -9,29 +9,24 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author Mory
- * @since 2023-08-10
+ * &date  2023/8/17 11:13
+ * &introduce 烽火兴旺，凡我喵喵教，喵喵喵！
  */
-@TableName("todo_group")
 @Data
-public class Group implements Serializable {
+@TableName("todo_teammate")
+public class Teammate implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "group_id", type = IdType.AUTO)
     private Integer groupId;
+    private Integer userId;
+    @TableId(value = "user_id", type = IdType.AUTO)
+    private Integer columnId;
 
-    private String groupName;
-
-    public Group(){
-    }
-
-    public Group(String groupName){
-        this.groupName = groupName;
+    public Teammate(Integer groupId, Integer userId) {
+        this.groupId = groupId;
+        this.userId = userId;
     }
 }

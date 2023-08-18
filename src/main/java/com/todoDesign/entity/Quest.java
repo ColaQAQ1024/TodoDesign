@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -33,4 +34,6 @@ public class Quest extends Model<Quest> {
     private boolean finish;
     private boolean star;
     private Integer groupId;
+    private LocalDateTime startTime;
+    private LocalDateTime deadTime;
 }

@@ -1,10 +1,11 @@
 package com.todoDesign.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
-import cn.dev33.satoken.stp.StpUtil;
 import com.todoDesign.dto.GroupDTO;
+import com.todoDesign.dto.TeammateDTO;
 import com.todoDesign.entity.Group;
 import com.todoDesign.service.IGroupService;
+import com.todoDesign.service.ITeammateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,16 @@ import org.springframework.stereotype.Controller;
 public class GroupController {
 
     private final IGroupService iGroupService;
+    private final ITeammateService iTeammateService;
 
     @PostMapping("/createGroup")
     public ResponseEntity<String> createGroup(@RequestBody GroupDTO groupDTO){
-        Group group = new Group(groupDTO.getGroupName(),(Integer) StpUtil.getSession().get("userId"));
+        Group group = new Group(groupDTO.getGroupName());
         return iGroupService.createGroup(group);
     }
 
+    @PostMapping("/Teammate")
+    public ResponseEntity<String> inviteTeammate(@RequestBody TeammateDTO teammateDTO){
+        return iTeammateService.inviteTeammate(teammateDTO);
+    }
 }
