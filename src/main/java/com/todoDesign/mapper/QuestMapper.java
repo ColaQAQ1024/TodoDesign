@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * 任务 Mapper 接口
  * <p>
- * 这是一个用于操作任务的 Mapper 接口。
- * 通过继承 BaseMapper<Quest>，可以使用 MyBatis-Plus 提供的通用 CRUD 方法。
+ *  Mapper 接口
+ * </p>
  *
  * @author Mory
  * @since 2023-08-10
