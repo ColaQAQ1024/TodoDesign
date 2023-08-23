@@ -1,8 +1,11 @@
 package com.todoDesign.service;
 
-import com.todoDesign.entity.Group;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.todoDesign.entity.Group;
+import com.todoDesign.entity.User;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 /**
  * 群组服务接口
@@ -24,4 +27,12 @@ public interface IGroupService extends IService<Group> {
      * @return 响应实体
      */
     ResponseEntity<String> createGroup(Group group);
+
+    Long incrementCounter();
+
+    Integer getCounter();
+
+    void cacheUser(User user);
+
+    List<Object> getAllUserFromCache();
 }

@@ -54,7 +54,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             iGroupService.save(group);
             // 使用保存后的用户信息调用 createGroup 方法
             iTeammateService.saveByGroupIdAndUserId(group.getGroupId(),userId);
-            Relation relation = new Relation(2,userId);
+            Relation relation = new Relation(2,userId);//默认标准用户
             // 建立User权限关系
             iRelationService.save(relation);
             return ResponseEntity.ok("注册成功");
@@ -70,8 +70,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .eq(User::getPassword, userDTO.getPassword())
                 .one();
         if (user != null) {
+            if (StpUtil.isDisable(user.getUserId())){
+                //检查userId是否已被封禁
+                return ResponseEntity.ok("当前账号异常,解除时间:" + StpUtil.getDisableTime(user.getUserId()));
+            }
             StpUtil.login(user.getUserId());//成功登录
-            StpUtil.getSession().set("userId",user.getUserId());//加载对应userId的session
             return ResponseEntity.ok("登录成功");
         }else {
             return ResponseEntity.ok("用户名或密码错误(⊙_⊙)，请重新输入");

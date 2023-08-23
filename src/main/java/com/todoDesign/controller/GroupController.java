@@ -11,10 +11,11 @@ import com.todoDesign.service.IRelationService;
 import com.todoDesign.service.ITeammateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
 
 /**
  * <p>
@@ -51,5 +52,15 @@ public class GroupController {
     @PostMapping("/subscribeTodo")
     public ResponseEntity<String> subscribeTodo(@RequestBody Money money){
         return iRelationService.subscribeTodo(money);
+    }
+
+    @GetMapping("/increment")
+    public Long incrementCount() {
+        return iGroupService.incrementCounter();
+    }
+
+    @GetMapping("/getCounter")
+    public Integer getCounter() {
+        return iGroupService.getCounter();
     }
 }
