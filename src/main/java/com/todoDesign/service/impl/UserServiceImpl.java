@@ -45,6 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .one()
                 == null
         ){
+
             this.save(user);
             Integer userId = this.lambdaQuery()
                     .eq(User::getUsername,user.getUsername())

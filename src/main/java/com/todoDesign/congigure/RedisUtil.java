@@ -1,4 +1,4 @@
-package com.todoDesign.entity;
+package com.todoDesign.congigure;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

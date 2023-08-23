@@ -1,5 +1,6 @@
 package com.todoDesign;
 
+import cn.dev33.satoken.secure.SaSecureUtil;
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.entity.Quest;
 import com.todoDesign.entity.User;
@@ -98,6 +99,11 @@ class TodoDesignApplicationTests {
         executorService.awaitTermination(10, TimeUnit.SECONDS);
 
         System.out.println("用户列表:" + iGroupService.getAllUserFromCache());
+    }
+
+    @Test
+    public void Test() throws Exception {
+        System.out.println(SaSecureUtil.rsaGenerateKeyPair());
     }
 
 }

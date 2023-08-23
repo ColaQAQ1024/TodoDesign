@@ -22,7 +22,7 @@ public class Teammate implements Serializable {
 
     private Integer groupId;
     private Integer userId;
-    @TableId(value = "user_id", type = IdType.AUTO)
+    @TableId(value = "column_Id", type = IdType.AUTO)
     private Integer columnId;
 
     public Teammate(Integer groupId, Integer userId) {
