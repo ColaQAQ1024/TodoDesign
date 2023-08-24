@@ -1,6 +1,6 @@
 package com.todoDesign;
 
-import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.secure.SaSecureUtil;
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.entity.Quest;
 import com.todoDesign.entity.User;
@@ -16,6 +16,7 @@ import redis.clients.jedis.Jedis;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class TodoDesignApplicationTests {
@@ -62,7 +63,7 @@ class TodoDesignApplicationTests {
     }
 
     @Test
-    public void testConcurrentIncrement(){
+    public void testConcurrentIncrement() throws InterruptedException{
         int numThreads = 100;
 
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
@@ -75,12 +76,13 @@ class TodoDesignApplicationTests {
         }
 
         executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
 
         System.out.println("counter 列表为:" + iGroupService.getCounter());
     }
 
     @Test
-    public void testUser(){
+    public void testUser() throws InterruptedException{
         int numThreads = 1000;
 
         ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
@@ -89,23 +91,19 @@ class TodoDesignApplicationTests {
             User user = new User();
             user.setNickname("新用户_" + String.format("%04d",new Random().nextInt(10000)));
 
-            executorService.execute(() -> iGroupService.cacheUser(user));
+            executorService.execute(() -> {
+                iGroupService.cacheUser(user);
+            });
         }
         executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
 
         System.out.println("用户列表:" + iGroupService.getAllUserFromCache());
     }
 
     @Test
-    public void Test() {
-        int id = 53;
-        StpUtil.login(id);
-        StpUtil.kickout(id);
-        StpUtil.login(id);
-        StpUtil.replaced(id,"IOS");
-        StpUtil.login(id);
-        StpUtil.renewTimeout(3600 * 24 * 7);
-        StpUtil.logout();
+    public void Test() throws Exception {
+        System.out.println(SaSecureUtil.rsaGenerateKeyPair());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.todoDesign.configure;
+package com.todoDesign.congigure;
 
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.entity.Quest;

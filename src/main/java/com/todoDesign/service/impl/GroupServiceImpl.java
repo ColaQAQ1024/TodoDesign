@@ -3,7 +3,7 @@ package com.todoDesign.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.todoDesign.entity.Group;
-import com.todoDesign.configure.RedisUtil;
+import com.todoDesign.congigure.RedisUtil;
 import com.todoDesign.entity.User;
 import com.todoDesign.mapper.GroupMapper;
 import com.todoDesign.service.IGroupService;

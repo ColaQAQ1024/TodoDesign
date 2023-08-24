@@ -1,9 +1,9 @@
 package com.todoDesign.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.todoDesign.configure.Big;
 import com.todoDesign.dto.Money;
 import com.todoDesign.entity.Relation;
+import org.springframework.http.ResponseEntity;
 
 /**
  * 关系 Service 接口
@@ -22,5 +22,5 @@ public interface IRelationService extends IService<Relation> {
      * @param money 金额信息
      * @return 响应实体，包含订阅结果信息
      */
-    Big<Object> subscribeTodo(Money money);
+    ResponseEntity<String> subscribeTodo(Money money);
 }

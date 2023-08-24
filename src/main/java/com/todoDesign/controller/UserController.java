@@ -3,11 +3,12 @@ package com.todoDesign.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
-import com.todoDesign.dto.UserDTO;
 import com.todoDesign.entity.User;
+import com.todoDesign.dto.UserDTO;
 import com.todoDesign.service.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Mory
  * @since 2023-08-10
  */
-@RestController
+@Controller
 @RequestMapping("/todoDesign/user")
 public class UserController {
 

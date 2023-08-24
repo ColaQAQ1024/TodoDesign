@@ -1,4 +1,4 @@
-package com.todoDesign.configure.exceptionHandler;
+package com.todoDesign.congigure.exceptionHandler;
 
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,5 +17,4 @@ public class GlobalExceptionHandler {
         e.printStackTrace();
         return SaResult.error(e.getMessage());
     }
-
 }

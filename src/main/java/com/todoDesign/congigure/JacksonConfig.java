@@ -1,4 +1,4 @@
-package com.todoDesign.configure;
+package com.todoDesign.congigure;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

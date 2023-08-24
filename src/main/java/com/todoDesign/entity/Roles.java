@@ -5,9 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 
 /**
  * @author Mory
@@ -16,9 +13,8 @@ import java.io.Serializable;
  */
 @Data
 @TableName("todo_roles")
-public class Roles implements Serializable {
+public class Roles {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "role_id", type = IdType.AUTO)
