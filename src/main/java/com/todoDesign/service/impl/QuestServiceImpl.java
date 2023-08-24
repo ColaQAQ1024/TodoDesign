@@ -2,7 +2,7 @@ package com.todoDesign.service.impl;
 
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.dto.FinishQuest;
-import com.todoDesign.congigure.ZModelMapperConfig;
+import com.todoDesign.configure.ZModelMapperConfig;
 import com.todoDesign.entity.Quest;
 import com.todoDesign.mapper.QuestMapper;
 import com.todoDesign.service.IGroupService;
@@ -46,11 +46,19 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<String> add(QuestDTO questDTO, int userId){
-        Quest quest = modelMapper.map(questDTO,Quest.class);
         Integer groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
+        if (this.lambdaQuery()
+                .eq(Quest::getNameThing,questDTO.getNameThing())
+                .eq(Quest::getGroupId,groupId).one()
+                != null
+        ){
+            //列表已有重复代办
+            return ResponseEntity.ok(questDTO.getNameThing() + "已存在 列表" + questDTO.getGroupName());
+        }
+        Quest quest = modelMapper.map(questDTO,Quest.class);
         quest.setGroupId(groupId);
         this.save(quest);
-        return ResponseEntity.ok(quest.getNameThing() + "已添加列表" + questDTO.getGroupName());
+        return ResponseEntity.ok(quest.getNameThing() + "已添加 列表" + questDTO.getGroupName());
     }
 
     @Override
@@ -79,7 +87,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
         if (finishQuests.size() > 0){
             return ResponseEntity.ok(finishQuests);
         }else {
-            return ResponseEntity.ok("暂无为完成事项");
+            return ResponseEntity.ok("暂无未完成事项");
         }
     }
 

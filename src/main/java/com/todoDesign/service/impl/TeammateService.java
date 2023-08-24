@@ -30,7 +30,7 @@ public class TeammateService extends ServiceImpl<TeammateMapper, Teammate> imple
     public ResponseEntity<String> inviteTeammate(TeammateDTO teammateDTO) {
 
         //检索列表是否存在，不存在为null
-        Integer groupId = groupMapper.getGroupIdByGroupNameAndUserId(teammateDTO.getGroupName(), StpUtil.getSession().getInt("userId"));
+        Integer groupId = groupMapper.getGroupIdByGroupNameAndUserId(teammateDTO.getGroupName(), StpUtil.getLoginIdAsInt());
         if (groupId == null) {
             return ResponseEntity.ok("列表不存在");
         }
