@@ -2,6 +2,7 @@ package com.todoDesign.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import com.todoDesign.configure.Big;
 import com.todoDesign.dto.GroupDTO;
 import com.todoDesign.dto.Money;
 import com.todoDesign.dto.TeammateDTO;
@@ -11,11 +12,7 @@ import com.todoDesign.service.IRelationService;
 import com.todoDesign.service.ITeammateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -25,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Mory
  * @since 2023-08-10
  */
-@Controller
+@RestController
 @SaCheckLogin
 @RequiredArgsConstructor
 @RequestMapping("/todoDesign/group")
@@ -50,7 +47,7 @@ public class GroupController {
 
     @SaCheckLogin
     @PostMapping("/subscribeTodo")
-    public ResponseEntity<String> subscribeTodo(@RequestBody Money money){
+    public Big<Object> subscribeTodo(@RequestBody Money money){
         return iRelationService.subscribeTodo(money);
     }
 
@@ -63,4 +60,5 @@ public class GroupController {
     public Integer getCounter() {
         return iGroupService.getCounter();
     }
+
 }
