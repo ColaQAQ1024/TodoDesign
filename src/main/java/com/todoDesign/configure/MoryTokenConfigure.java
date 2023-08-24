@@ -1,4 +1,4 @@
-package com.todoDesign.congigure;
+package com.todoDesign.configure;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import org.springframework.context.annotation.Configuration;

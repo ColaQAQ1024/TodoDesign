@@ -1,4 +1,4 @@
-package com.todoDesign.congigure;
+package com.todoDesign.configure;
 
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;

@@ -8,13 +8,12 @@ import com.todoDesign.service.IQuestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 
 
 /**
  * @author Mory
  */
-@Controller
+@RestController
 @RequestMapping("/todoDesign/quest")
 @RequiredArgsConstructor
 @SaCheckLogin

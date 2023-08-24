@@ -2,6 +2,7 @@ package com.todoDesign.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.todoDesign.configure.PasswordSecure;
 import com.todoDesign.dto.UserDTO;
 import com.todoDesign.entity.Group;
 import com.todoDesign.entity.Relation;
@@ -34,6 +35,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private final IGroupService iGroupService;
     private final IRelationService iRelationService;
 
+    private final PasswordSecure passwordSecure = new PasswordSecure();
+
     @Override
     public ResponseEntity<String> signIn(@NotNull User user){
         if ("String".equals(user.getNickname())){
@@ -45,7 +48,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .one()
                 == null
         ){
-
+            user.setPassword(
+                    passwordSecure.setPassword(
+                            user.getPassword()
+                    ));//加密储存
             this.save(user);
             Integer userId = this.lambdaQuery()
                     .eq(User::getUsername,user.getUsername())
@@ -68,9 +74,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public ResponseEntity<String> login(UserDTO userDTO){
         User user = this.lambdaQuery()
                 .eq(User::getUsername, userDTO.getUsername())
-                .eq(User::getPassword, userDTO.getPassword())
                 .one();
-        if (user != null) {
+        if (user != null && passwordSecure.getPassword(user.getPassword()).equals(userDTO.getPassword())) {
             if (StpUtil.isDisable(user.getUserId())){
                 //检查userId是否已被封禁
                 return ResponseEntity.ok("当前账号异常,解除时间:" + StpUtil.getDisableTime(user.getUserId()));
