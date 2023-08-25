@@ -3,8 +3,9 @@ package com.todoDesign.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
+import com.todoDesign.configure.Big;
 import com.todoDesign.dto.UserDTO;
-import com.todoDesign.entity.User;
+import com.todoDesign.dto.UserSignInDTO;
 import com.todoDesign.service.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UserController {
 
     @SaIgnore
     @PostMapping("/users")
-    public ResponseEntity<String> signIn(@RequestBody User user){
+    public ResponseEntity<String> signIn(@RequestBody UserSignInDTO user){
         return userService.signIn(user);
     }
 
@@ -50,6 +51,18 @@ public class UserController {
     @RequestMapping("/isLogin")
     public ResponseEntity<Object> isLogin() {
         return ResponseEntity.ok("当前会话是否登录：" + StpUtil.isLogin() + " userId:" + StpUtil.getLoginIdDefaultNull());
+    }
+
+    @SaCheckLogin
+    @PostMapping("/setLuckyPassword")
+    public Big<String> setLuckyKey(@RequestBody String luckyPassword){
+        return userService.setLuckyKey(luckyPassword);
+    }
+
+    @SaCheckLogin
+    @PostMapping("/loginLucky")
+    public Big<String> loginLuckyLock(@RequestBody String luckyPassword){
+        return userService.loginLuckyLock(luckyPassword);
     }
 
     @SaCheckLogin

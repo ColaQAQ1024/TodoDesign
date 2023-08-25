@@ -39,6 +39,12 @@ public class GroupController {
         return iGroupService.createGroup(group);
     }
 
+    @SaCheckLogin
+    @PostMapping("/deleteGroup")
+    public Big<String> deleteGroup(@RequestBody GroupDTO groupDTO){
+        return iGroupService.deleteGroup(groupDTO);
+    }
+
     @SaCheckRole("user-plus")
     @PostMapping("/Teammate")
     public ResponseEntity<String> inviteTeammate(@RequestBody TeammateDTO teammateDTO){

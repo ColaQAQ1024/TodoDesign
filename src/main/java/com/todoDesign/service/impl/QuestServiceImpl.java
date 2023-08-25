@@ -4,8 +4,8 @@ import com.todoDesign.dto.FinishQuest;
 import com.todoDesign.dto.QuestDTO;
 import com.todoDesign.configure.ZModelMapperConfig;
 import com.todoDesign.entity.Quest;
+import com.todoDesign.mapper.GroupMapper;
 import com.todoDesign.mapper.QuestMapper;
-import com.todoDesign.service.IGroupService;
 import com.todoDesign.service.IQuestService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     private final QuestMapper questMapper;
     private final ModelMapper modelMapper;
-    private final IGroupService iGroupService;
+    private final GroupMapper groupMapper;
     private final ZModelMapperConfig zModelMapperConfig;
 
 
@@ -46,7 +46,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<String> add(QuestDTO questDTO, int userId){
-        Integer groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
+        Integer groupId = groupMapper.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
         if (this.lambdaQuery()
                 .eq(Quest::getNameThing,questDTO.getNameThing())
                 .eq(Quest::getGroupId,groupId).one()
@@ -63,7 +63,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<Object> allFinish(String groupName,int userId){
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
+        int groupId = groupMapper.getGroupIdByGroupNameAndUserId(groupName,userId);
         List<Quest> list = this.lambdaQuery()
                 .eq(Quest::isFinish,true)
                 .eq(Quest::getGroupId,groupId)
@@ -78,7 +78,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<Object> unFinish(String groupName,int userId){
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(groupName,userId);
+        int groupId = groupMapper.getGroupIdByGroupNameAndUserId(groupName,userId);
         List<Quest> list = this.lambdaQuery()
                 .eq(Quest::isFinish,false)
                 .eq(Quest::getGroupId,groupId)
@@ -103,7 +103,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<String> finish(QuestDTO questDTO,int userId){
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
+        int groupId = groupMapper.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
         int questId = this.getQuestIdByNameThingAndGroupId(questDTO.getNameThing(),groupId);
         Quest finishQuest = Optional.ofNullable(this.getById(questId)).orElseThrow();
         finishQuest.setFinish(true);
@@ -116,7 +116,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<String> deleteThing(QuestDTO questDTO,int userId){
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
+        int groupId = groupMapper.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
         int questId = this.getQuestIdByNameThingAndGroupId(questDTO.getNameThing(),groupId);
         if (this.removeById(questId)){
             return ResponseEntity.ok(questDTO.getNameThing() + "成功删除");
@@ -127,7 +127,7 @@ public class QuestServiceImpl extends ServiceImpl<QuestMapper, Quest> implements
 
     @Override
     public ResponseEntity<String> setStar(QuestDTO questDTO,int userId){
-        int groupId = iGroupService.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
+        int groupId = groupMapper.getGroupIdByGroupNameAndUserId(questDTO.getGroupName(),userId);
         int questId = this.getQuestIdByNameThingAndGroupId(questDTO.getNameThing(),groupId);
         Quest quest = Optional.ofNullable(this.getById(questId)).orElseThrow();
         quest.setStar(true);

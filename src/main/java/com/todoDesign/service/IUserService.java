@@ -1,8 +1,10 @@
 package com.todoDesign.service;
 
-import com.todoDesign.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.todoDesign.configure.Big;
 import com.todoDesign.dto.UserDTO;
+import com.todoDesign.dto.UserSignInDTO;
+import com.todoDesign.entity.User;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 
@@ -18,7 +20,7 @@ public interface IUserService extends IService<User> {
      * @param user 要注册的用户信息
      * @return 响应实体
      */
-    ResponseEntity<String> signIn(@NotNull User user);
+    ResponseEntity<String> signIn(@NotNull UserSignInDTO user);
 
     /**
      * 用户登录
@@ -28,4 +30,7 @@ public interface IUserService extends IService<User> {
      */
     ResponseEntity<String> login(UserDTO userDTO);
 
+    Big<String> setLuckyKey(String luckyPassword);
+
+    Big<String> loginLuckyLock(String luckyPassword);
 }
